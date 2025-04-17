@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<section id="blog" class="blog">
+    <div class="container">
+      <div class="section-header">
+        <h2>Blog</h2>
+        <p>Thoughts, tutorials, and insights</p>
+      </div>
+      <div class="blog-grid">
+        {sortedPosts.map(post => (
+            <div class="blog-card">
+                <div class="blog-date">{post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})}</div>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.excerpt}</p>
+                <a href={`/blog/${post.slug}`} class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        ))}
+      </div>
+    </div>
+  </section>
